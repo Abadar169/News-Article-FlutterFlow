@@ -10,11 +10,36 @@ class ArticlesCall {
   static Future<ApiCallResponse> call() async {
     return ApiManager.instance.makeApiCall(
       callName: 'articles',
-      apiUrl:
-          'https://api.storyblok.com/v2/cdn/stories?starts_with=articles&token=IURJyjGyAhhzLZLo2jlB0Qtt',
+      apiUrl: 'https://api.storyblok.com/v2/cdn/stories',
       callType: ApiCallType.GET,
       headers: {},
-      params: {},
+      params: {
+        'starts_with': "articles",
+        'token': "IURJyjGyAhhzLZLo2jlB0Qtt",
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class ArticleCall {
+  static Future<ApiCallResponse> call({
+    String? uuid = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'article',
+      apiUrl: 'https://api.storyblok.com/v2/cdn/stories/$uuid',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'find_by': "uuid",
+        'token': "IURJyjGyAhhzLZLo2jlB0Qtt",
+        'resolve_relations': "page.author.page.categories",
+      },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,

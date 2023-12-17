@@ -1,6 +1,8 @@
 import '/backend/api_requests/api_calls.dart';
+import '/components/category_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'home_page_model.dart';
@@ -54,6 +56,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           automaticallyImplyLeading: false,
           title: Text(
             'News Article',
+            textAlign: TextAlign.center,
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Montserrat',
                   color: FlutterFlowTheme.of(context).primaryText,
@@ -62,7 +65,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 ),
           ),
           actions: const [],
-          centerTitle: false,
+          centerTitle: true,
           elevation: 2.0,
         ),
         body: SafeArea(
@@ -105,58 +108,104 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             return Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 12.0, 16.0, 12.0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF84E1E3),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      blurRadius: 7.0,
-                                      color: Color(0x2F1D2429),
-                                      offset: Offset(0.0, 3.0),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          getJsonField(
-                                            articleItem,
-                                            r'''$.content.thumbnail.filename''',
-                                          ).toString(),
-                                          width: double.infinity,
-                                          height: 100.0,
-                                          fit: BoxFit.cover,
-                                        ),
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  context.pushNamed(
+                                    'Article',
+                                    queryParameters: {
+                                      'uuid': serializeParam(
+                                        getJsonField(
+                                          articleItem,
+                                          r'''$.uuid''',
+                                        ).toString(),
+                                        ParamType.String,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 8.0, 0.0, 8.0),
-                                        child: Row(
+                                    }.withoutNulls,
+                                  );
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF84E1E3),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        blurRadius: 7.0,
+                                        color: Color(0x2F1D2429),
+                                        offset: Offset(0.0, 3.0),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            getJsonField(
+                                              articleItem,
+                                              r'''$.content.thumbnail.filename''',
+                                            ).toString(),
+                                            width: double.infinity,
+                                            height: 200.0,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 8.0, 0.0, 8.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                  getJsonField(
+                                                    articleItem,
+                                                    r'''$.content.title''',
+                                                  ).toString(),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyLarge
+                                                      .override(
+                                                        fontFamily:
+                                                            'Plus Jakarta Sans',
+                                                        color:
+                                                            const Color(0xFF14181B),
+                                                        fontSize: 16.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Flexible(
+                                            Expanded(
                                               child: Text(
                                                 getJsonField(
                                                   articleItem,
-                                                  r'''$.content.title''',
+                                                  r'''$.content.headline''',
                                                 ).toString(),
                                                 style:
                                                     FlutterFlowTheme.of(context)
-                                                        .bodyLarge
+                                                        .labelMedium
                                                         .override(
                                                           fontFamily:
                                                               'Plus Jakarta Sans',
                                                           color:
-                                                              const Color(0xFF14181B),
-                                                          fontSize: 16.0,
+                                                              const Color(0xFF57636C),
+                                                          fontSize: 14.0,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
@@ -164,31 +213,50 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              getJsonField(
-                                                articleItem,
-                                                r'''$.content.headline''',
-                                              ).toString(),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .labelMedium
-                                                  .override(
-                                                    fontFamily:
-                                                        'Plus Jakarta Sans',
-                                                    color: const Color(0xFF57636C),
-                                                    fontSize: 14.0,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Expanded(
+                                              child: CategoryWidget(
+                                                key: Key(
+                                                    'Keyrlm_${articleIndex}_of_${article.length}'),
+                                                category: getJsonField(
+                                                  articleItem,
+                                                  r'''$.content.category''',
+                                                ).toString(),
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                functions
+                                                    .formatTimeAgo(getJsonField(
+                                                  articleItem,
+                                                  r'''$.published_at''',
+                                                ).toString())!,
+                                                textAlign: TextAlign.end,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Plus Jakarta Sans',
+                                                          color:
+                                                              const Color(0xFF57636C),
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
